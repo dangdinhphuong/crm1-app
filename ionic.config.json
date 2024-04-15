@@ -1,0 +1,7 @@
+{
+  "name": "crm1",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
