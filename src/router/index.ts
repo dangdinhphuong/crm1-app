@@ -73,6 +73,7 @@ const isRouteExist = (routeName:any) => {
   return !!routeName;
 }
 
+
 // router.beforeEach(async (to, from, next) => {
 //   const routeExist = isRouteExist(to.name);
 
