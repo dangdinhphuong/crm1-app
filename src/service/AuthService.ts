@@ -1,7 +1,8 @@
-import { axiosPost, axiosGet } from '@/helpers/ApiHelper'; // Import axios functions
-// import { authStore } from './authStore'; // Import authStore
-// import { router } from './router'; // Import router
-// import { routeNameConstant, apiPathConstant } from './constants'; // Import constants
+import {axiosGet, axiosPost, isSuccessRequest} from '@/helpers/ApiHelper'; // Import axios functions
+import { ROUTE_NAME } from "@/constants/RouteNameConstant";
+import { authStore } from '@/stores/AuthStore'; // Import authStore
+import router from '@/router/index';
+import apiPathConstant from '@/constants/ApiPathConstant'; // Import constants
 // import { isSuccessRequest } from './utils'; // Import isSuccessRequest function
 
 export default class AuthService {
@@ -27,9 +28,9 @@ export default class AuthService {
             }, {}, false);
             if(response.data != undefined && response.data.access_token != undefined ){
            this.setAccessToken(response.data.access_token);
-           console.log('Login thành công:' + response.status);
-            // authStore().setUser(response.data.user);
-            // router.push({ name: routeNameConstant.HOME_PAGE });
+           console.log('Login thành công:' , response);
+             authStore().setUser(response.data.user);
+             router.push({ name: ROUTE_NAME.HOME });
             }else{
                 throw "error";
             }
@@ -44,17 +45,17 @@ export default class AuthService {
     //     router.push({ name: routeNameConstant.LOGIN });
     // }
 
-    // public async getCurrentUser(): Promise<any> {
-    //     try {
-    //         const response = await axiosGet(apiPathConstant.ME_INFO);
-    //         if (isSuccessRequest(response)) {
-    //             return response.data;
-    //         } else {
-    //             throw new Error('Failed to fetch current user information');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error during getCurrentUser:', error);
-    //         throw error; // Propagate the error up
-    //     }
-    // }
+    public async getCurrentUser(): Promise<any> {
+        try {
+            const response = await axiosGet(apiPathConstant.ME_INFO);
+            if (isSuccessRequest(response)) {
+                return response.data;
+            } else {
+                throw new Error('Failed to fetch current user information');
+            }
+        } catch (error) {
+            console.error('Error during getCurrentUser:', error);
+            throw error; // Propagate the error up
+        }
+    }
 }

@@ -2,15 +2,20 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue'
 import { ROUTE_NAME } from "@/constants/RouteNameConstant";
+import { authStore } from '@/stores/AuthStore';
 
 
-// const privateRoute: RouteRecordRaw['beforeEnter'] = function(to, from, next) {
-//   if (!store.state.user.isAuthenticated) {
-//     next({ name: 'login' });
-//   } else {
-//     next();
-//   }
-// };
+
+const privateRoute: RouteRecordRaw['beforeEnter'] = function(to, from, next) {
+  
+  // const store = await loadAndGetStore();
+  // console.log('loadAndGetStore',loadAndGetStore())
+  // if (!store.state.user.isAuthenticated) {
+  //   next({ name: 'login' });
+  // } else {
+  //   next();
+  // }
+};
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -37,7 +42,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'tab1',
         component: () => import('@/views/Tab1Page.vue'),
-        name: ROUTE_NAME.HOME_PAGE,
+        name: ROUTE_NAME.HOME,
       },
       {
         path: 'tab2',
@@ -52,8 +57,37 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
+
+const loadAndGetStore = async () => {
+  const store:any = {};
+  store.authStore = authStore();
+  await store.authStore.loadUser();
+
+  return store;
+}
+
+const isRouteExist = (routeName:any) => {
+  return !!routeName;
+}
+
+// router.beforeEach(async (to, from, next) => {
+//   const routeExist = isRouteExist(to.name);
+
+//   const store = await loadAndGetStore();
+//   const user = store.authStore.getUser; // Lấy thông tin người dùng từ authStore
+
+//   const context = {
+//     to,
+//     from,
+//     next,
+//     store,
+//     user // Thêm thông tin người dùng vào context
+//   };
+//   console.log('loadAndGetStore',context)
+// });
+
 
 export default router

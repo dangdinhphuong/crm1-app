@@ -1,6 +1,6 @@
 export const ROUTE_NAME:any = {
     LOGIN: "login",
-    HOME_PAGE: "home",
+    HOME: "home",
     DASHBOARD: "dashboard",
 
     ROLE_VIEW: "role-view",
